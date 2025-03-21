@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Letter Reveal</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #ffccd5;
+            flex-direction: column;
+            font-family: Arial, sans-serif;
+        }
+        .envelope {
+            position: relative;
+            width: 450px;
+            height: 300px;
+            background: #ff9aa2;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .flap {
+            position: absolute;
+            top: 0;
+            width: 0;
+            height: 0;
+            border-left: 225px solid transparent;
+            border-right: 225px solid transparent;
+            border-bottom: 150px solid #ff758f;
+            transition: transform 1s ease-in-out;
+        }
+        .container {
+            position: absolute;
+            width: 420px;
+            height: auto;
+            max-height: 300px;
+            overflow-y: scroll;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(100%);
+            transition: transform 1s ease-in-out;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .letter {
+            width: 100%;
+            height: auto;
+            background: white;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            text-align: center;
+            color: black;
+        }
+        .letter img {
+            width: 250px;
+            height: auto;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #ff7eb3, #ff477e);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background: linear-gradient(135deg, #ff477e, #d40057);
+            transform: scale(1.1);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+        .draggable {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 150px;
+            cursor: grab;
+        }
+        .hidden-link {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: none;
+            font-size: 16px;
+            font-weight: bold;
+            color: #d40057;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 5px;
+            background: #ff7eb3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .hidden-link:hover {
+            background: #ff477e;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="envelope" id="envelope">
+        <div class="flap" id="flap"></div>
+        <div class="container" id="letterContainer">
+            <div class="letter">
+                <img src="Snoopyheartgif.gif" alt="Snoopy Heart GIF">
+                <p>Hai Chelsea,</p>
+                <p>I've enjoyed our time together and the things we do when we hang out. I really am thankful that you spend time with me. It's a new thing for me because I've never asked anyone out before, but I'm still not sure what makes you different from others. I guess just the way you are is what makes you different.</p>
+                <p>I know you're not used to compliments, but I really think you're pretty, the way your hair flows behind your ear, the way you talk, and the way you laugh. I find it all attractive. It may be weird to you that I say these things, but I promise I'm not saying them in a lustful way.</p>
+                <p>I hope you see this the way I do, that I like you and appreciate you. Also, thank you for being patient with me, and I hope you become more patient because I'm still trying to understand you so that I can treat you well and take care of you.</p>
+                <p>That's all. After reading this, drag the snoopy its gonna show u something that I wanna ask</p>
+            </div>
+        </div>
+    </div>
+    <button class="button" onclick="openLetter()">Open Letter</button>
+    <img src="snoopy.jpg" alt="Drag me" class="draggable" id="draggableImage">
+    <a href="https://yourwebsite.com" class="hidden-link" id="hiddenLink">Click me!! ❤️</a>
+    
+    <script>
+        let letterOpened = false;
+        function openLetter() {
+            document.getElementById('flap').style.transform = 'rotateX(180deg)';
+            document.getElementById('letterContainer').style.transform = 'translateY(0)';
+            letterOpened = true;
+        }
+        
+        const draggable = document.getElementById("draggableImage");
+        const hiddenLink = document.getElementById("hiddenLink");
+        let offsetX, offsetY, isDragging = false;
+
+        draggable.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            offsetX = e.clientX - draggable.getBoundingClientRect().left;
+            offsetY = e.clientY - draggable.getBoundingClientRect().top;
+            draggable.style.cursor = "grabbing";
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+            draggable.style.left = `${e.clientX - offsetX}px`;
+            draggable.style.top = `${e.clientY - offsetY}px`;
+            if (letterOpened) {
+                hiddenLink.style.display = "block";
+            }
+        });
+
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            draggable.style.cursor = "grab";
+        });
+    </script>
+</body>
+</html>
+
